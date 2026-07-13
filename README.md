@@ -36,16 +36,22 @@ no repo bloat). After regenerating:
 # 1. commit the small files (CSVs are git-ignored)
 git add -A && git commit -m "regenerate demo data" && git push
 
-# 2. publish the CSVs as Release assets (flat names, matching manifest.json csv_asset)
-gh release create v1 \
-  posts-100k/data.csv#posts-100k.csv \
-  simple-products-100k/data.csv#simple-products-100k.csv \
-  variable-products-500k/data.csv#variable-products-500k.csv \
+# 2. stage the CSVs under their asset names (the asset filename = the file basename,
+#    and manifest.json expects <slug>.csv), then publish as Release assets:
+tmp=$(mktemp -d)
+for slug in posts-100k simple-products-100k variable-products-500k; do
+  cp "$slug/data.csv" "$tmp/$slug.csv"
+done
+gh release create v1 "$tmp"/*.csv \
   --title "Demo data v1" --notes "Demo CSVs for Super Speedy Imports."
+# (to refresh an existing release instead: gh release upload v1 "$tmp"/*.csv --clobber)
 ```
 
-The manifest's `release_base` points at `releases/latest/download/`, so re-uploading assets to a
-newer release keeps the URLs stable.
+The manifest's `release_base` points at `releases/latest/download/`, so re-uploading assets to the
+`latest` release keeps the URLs stable.
+
+**The repo must be PUBLIC** for end-user sites to fetch the manifest (raw) and the CSVs (release
+assets) without authentication.
 
 ## Regenerating
 
