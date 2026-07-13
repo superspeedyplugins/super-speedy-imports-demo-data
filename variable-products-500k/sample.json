@@ -1,0 +1,12 @@
+{
+    "name": "Variable Products (500,000 rows)",
+    "description": "100,000 variable products x 5 rows (colour and size variations), with colour-matched external images. Requires WooCommerce. Pro only: the Lite edition does not import variable products.",
+    "post_type": "product",
+    "rows": 500000,
+    "features": [
+        "Variable products",
+        "Colour + size attributes",
+        "External images (no download)",
+        "Categories"
+    ]
+}

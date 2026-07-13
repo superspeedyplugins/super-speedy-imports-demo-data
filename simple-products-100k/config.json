@@ -1,0 +1,45 @@
+{
+    "base_template": "SSI_WooCommerceProductTemplate",
+    "template_mappings": {
+        "post_title": "Name",
+        "post_content": "Description",
+        "post_status": "",
+        "parent_sku": "",
+        "taxonomies": {
+            "product_cat": {
+                "separator": ">",
+                "source": "Categories",
+                "is_variable": false
+            },
+            "product_brand": {
+                "separator": ">",
+                "source": "Brand",
+                "is_variable": false
+            },
+            "pa_color": {
+                "source": "Color",
+                "is_variable": ""
+            }
+        },
+        "post_meta": {
+            "_sku": "SKU",
+            "_regular_price": "Regular_Price",
+            "_sale_price": "Sale_Price",
+            "_stock": "Stock",
+            "_manage_stock": "Manage_Stock",
+            "_weight": "Weight",
+            "external_image_url": "External_Image"
+        },
+        "media": {
+            "featured_image": "",
+            "gallery_images": ""
+        }
+    },
+    "functions": null,
+    "additional_options": {
+        "delete_items": false,
+        "keep_sold_items": true,
+        "force_delete": false,
+        "continue_on_error": false
+    }
+}

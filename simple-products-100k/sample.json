@@ -1,0 +1,13 @@
+{
+    "name": "Simple Products (100,000)",
+    "description": "One hundred thousand simple WooCommerce products with categories, brands, colours, prices and stock. Colour-matched external images (no image download during the import). Requires WooCommerce.",
+    "post_type": "product",
+    "rows": 100000,
+    "features": [
+        "Simple products",
+        "Categories",
+        "Brands",
+        "Colour attribute",
+        "External images (no download)"
+    ]
+}

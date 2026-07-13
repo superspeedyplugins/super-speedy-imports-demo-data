@@ -1,0 +1,12 @@
+{
+    "name": "Posts (100,000, no images)",
+    "description": "One hundred thousand blog posts with hierarchical categories, tags and dates but no images - the bulk-speed demo.",
+    "post_type": "post",
+    "rows": 100000,
+    "features": [
+        "Bulk speed demo",
+        "Categories",
+        "Tags",
+        "Post dates"
+    ]
+}

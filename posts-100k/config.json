@@ -1,0 +1,36 @@
+{
+    "base_template": "SSI_PostTemplate",
+    "template_mappings": {
+        "post_title": "Title",
+        "post_content": "Content",
+        "post_excerpt": "Excerpt",
+        "post_date": "Date",
+        "taxonomies": {
+            "category": {
+                "separator": ">",
+                "source": "Categories",
+                "is_variable": false
+            },
+            "post_tag": {
+                "source": "Tags",
+                "is_variable": ""
+            }
+        },
+        "post_meta": {
+            "demo_reference": "Reference"
+        },
+        "media": {
+            "featured_image": ""
+        }
+    },
+    "functions": null,
+    "additional_options": {
+        "unique_id_components": [
+            "meta:demo_reference"
+        ],
+        "delete_items": false,
+        "keep_sold_items": true,
+        "force_delete": false,
+        "continue_on_error": false
+    }
+}

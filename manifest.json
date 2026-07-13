@@ -1,0 +1,63 @@
+{
+    "schema": 1,
+    "generated_seed": 20260713,
+    "repo": "superspeedyplugins/super-speedy-imports-demo-data",
+    "note": "Demo catalogue for Super Speedy Imports. Large CSVs are GitHub Release assets (git-ignored here); small JSON is served raw from main. If the org/repo differs, re-run after editing ORG/REPO at the top of the generator.",
+    "raw_base": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main",
+    "release_base": "https://github.com/superspeedyplugins/super-speedy-imports-demo-data/releases/latest/download",
+    "demos": [
+        {
+            "slug": "posts-100k",
+            "name": "Posts (100,000, no images)",
+            "description": "One hundred thousand blog posts with hierarchical categories, tags and dates but no images - the bulk-speed demo.",
+            "post_type": "post",
+            "rows": 100000,
+            "requires": [],
+            "min_plugin_version": "2.71.0",
+            "csv_asset": "posts-100k.csv",
+            "csv_url": "https://github.com/superspeedyplugins/super-speedy-imports-demo-data/releases/latest/download/posts-100k.csv",
+            "csv_size_bytes": 35154237,
+            "csv_sha256": "1a6c642f55ccf30c22f46604bb56374af3200eac674a7151d87aa602b9ba0549",
+            "config_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/posts-100k/config.json",
+            "sample_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/posts-100k/sample.json",
+            "taxonomies_url": null
+        },
+        {
+            "slug": "simple-products-100k",
+            "name": "Simple Products (100,000)",
+            "description": "One hundred thousand simple WooCommerce products with categories, brands, colours, prices and stock. Colour-matched external images (no image download during the import). Requires WooCommerce.",
+            "post_type": "product",
+            "rows": 100000,
+            "requires": [
+                "woocommerce"
+            ],
+            "min_plugin_version": "2.71.0",
+            "csv_asset": "simple-products-100k.csv",
+            "csv_url": "https://github.com/superspeedyplugins/super-speedy-imports-demo-data/releases/latest/download/simple-products-100k.csv",
+            "csv_size_bytes": 30657341,
+            "csv_sha256": "4b7f330715c6fa88407e57b881594a35977531946da72ddeded3239aff9314a2",
+            "config_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-100k/config.json",
+            "sample_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-100k/sample.json",
+            "taxonomies_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-100k/taxonomies.json"
+        },
+        {
+            "slug": "variable-products-500k",
+            "name": "Variable Products (500,000 rows)",
+            "description": "100,000 variable products x 5 rows (colour and size variations), with colour-matched external images. Requires WooCommerce. Pro only: the Lite edition does not import variable products.",
+            "post_type": "product",
+            "rows": 500000,
+            "requires": [
+                "woocommerce",
+                "pro"
+            ],
+            "min_plugin_version": "2.71.0",
+            "csv_asset": "variable-products-500k.csv",
+            "csv_url": "https://github.com/superspeedyplugins/super-speedy-imports-demo-data/releases/latest/download/variable-products-500k.csv",
+            "csv_size_bytes": 135617396,
+            "csv_sha256": "071db5deb9da94ab5ed0a8b87afe32f5a852a4603d7b2bac4e9db0b6b154f125",
+            "config_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/config.json",
+            "sample_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/sample.json",
+            "taxonomies_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/taxonomies.json"
+        }
+    ]
+}
