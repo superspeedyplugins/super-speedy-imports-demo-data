@@ -58,6 +58,24 @@
             "config_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/config.json",
             "sample_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/sample.json",
             "taxonomies_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/variable-products-500k/taxonomies.json"
+        },
+        {
+            "slug": "simple-products-1m",
+            "name": "Simple Products (1,000,000) - Showcase",
+            "description": "One million simple WooCommerce products with hierarchical categories, brands, tags and five filterable attributes (colour, size, material, pattern, style). Colour-matched external images (no image download during the import). Requires WooCommerce. CLI recommended at this size.",
+            "post_type": "product",
+            "rows": 1000000,
+            "requires": [
+                "woocommerce"
+            ],
+            "min_plugin_version": "2.71.0",
+            "csv_asset": "simple-products-1m.csv",
+            "csv_url": "https://github.com/superspeedyplugins/super-speedy-imports-demo-data/releases/latest/download/simple-products-1m.csv",
+            "csv_size_bytes": 325480119,
+            "csv_sha256": "cb9366ee6a1b2a74e1ca863af52fbb1d984096452fd03be1552f358282873097",
+            "config_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-1m/config.json",
+            "sample_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-1m/sample.json",
+            "taxonomies_url": "https://raw.githubusercontent.com/superspeedyplugins/super-speedy-imports-demo-data/main/simple-products-1m/taxonomies.json"
         }
     ]
 }

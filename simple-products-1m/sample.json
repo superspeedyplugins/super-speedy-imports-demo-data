@@ -1,0 +1,14 @@
+{
+    "name": "Simple Products (1,000,000) - Showcase",
+    "description": "One million simple WooCommerce products with hierarchical categories, brands, tags and five filterable attributes (colour, size, material, pattern, style). Colour-matched external images (no image download during the import). Requires WooCommerce.",
+    "post_type": "product",
+    "rows": 1000000,
+    "features": [
+        "Simple products",
+        "Categories",
+        "Brands",
+        "Tags",
+        "Colour / Size / Material / Pattern / Style attributes",
+        "External images (no download)"
+    ]
+}
