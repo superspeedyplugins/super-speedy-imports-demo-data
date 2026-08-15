@@ -4,3 +4,6 @@
 */data.csv
 /.claude/
 /.codex/
+
+# wp-cli machine-local config: points wp at the local WordPress install
+wp-cli.local.yml
