@@ -11,6 +11,7 @@ into their site — nothing is downloaded until the user asks for it.
 |---|---|---|---|
 | `posts-100k` | 100,000 posts, no images | ~34 MB | — |
 | `simple-products-100k` | 100,000 simple products, colour-matched external images | ~29 MB | WooCommerce |
+| `variable-products-55k` | 5,000 variable parents + 50,000 variations, ten variations per parent | ~14 MB | WooCommerce, **Pro** |
 | `variable-products-500k` | 100,000 variable products × 5 rows, colour + size variations | ~144 MB | WooCommerce, **Pro** |
 
 Each demo folder holds the small, committed files:
@@ -39,7 +40,7 @@ git add -A && git commit -m "regenerate demo data" && git push
 # 2. stage the CSVs under their asset names (the asset filename = the file basename,
 #    and manifest.json expects <slug>.csv), then publish as Release assets:
 tmp=$(mktemp -d)
-for slug in posts-100k simple-products-100k variable-products-500k; do
+for slug in posts-100k simple-products-100k variable-products-55k variable-products-500k; do
   cp "$slug/data.csv" "$tmp/$slug.csv"
 done
 gh release create v1 "$tmp"/*.csv \

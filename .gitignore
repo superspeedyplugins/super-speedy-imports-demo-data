@@ -2,6 +2,7 @@
 # Committing 30-144 MB CSVs would bloat the repo history forever (every clone pays it).
 # The small JSON (config/taxonomies/sample) + manifest.json ARE committed.
 */data.csv
+__pycache__/
 /.claude/
 /.codex/
 

@@ -4,13 +4,15 @@
 Deterministic (fixed seed, no timestamps) so re-running produces identical CSVs.
 Self-contained: does NOT read anything from the plugin repo.
 
-Produces three demos, each in its own folder (config.json + taxonomies.json +
+Produces four demos, each in its own folder (config.json + taxonomies.json +
 sample.json committed to git; data.csv is git-ignored and uploaded as a GitHub
 Release asset named <slug>.csv):
 
   posts-100k/              100,000 posts, no images (bulk-speed demo)          [Lite + Pro]
   simple-products-100k/    100,000 simple products, colour-matched EXTERNAL
                            images (no download during import)                  [Lite + Pro]
+  variable-products-55k/   5,000 variable parents + 50,000 variations,
+                           10 variations per parent                            [Pro only]
   variable-products-500k/  100,000 variable products x 5 rows = 500,000 rows,
                            colour + size variations, colour-matched external
                            images                                             [Pro only]
@@ -175,7 +177,7 @@ COLOURS = [
     ('White', 'F5F5F5', '333333'), ('Yellow', 'F2C230', '333333'),
     ('Purple', '8E44AD', 'FFFFFF'), ('Orange', 'E67E22', 'FFFFFF'),
 ]
-SIZES = ['Small', 'Medium', 'Large', 'XL']
+SIZES = ['Small', 'Medium', 'Large', 'XL', 'XXL']
 PRODUCT_TYPES = [
     ('T-Shirt', 'Clothing > T-Shirts', 15), ('Hoodie', 'Clothing > Hoodies', 35),
     ('Jacket', 'Clothing > Jackets', 60), ('Jeans', 'Clothing > Jeans', 45),
@@ -329,15 +331,113 @@ def gen_variable_500k(slug, parents):
     return rows
 
 
+def gen_variable_55k(slug, parents):
+    """Generate one parent plus ten variations for each product.
+
+    The ten variations are the Cartesian product of two colours and five sizes.
+    This produces exactly 5,000 parent rows and 50,000 variation rows for the
+    benchmark-sized demo while keeping the relationship obvious in the CSV.
+    """
+    d = ensure(slug)
+    header = ['SKU', 'Name', 'Type', 'Description', 'Short_Description',
+              'Regular_Price', 'Sale_Price', 'Stock', 'Manage_Stock',
+              'Categories', 'Brand', 'Color', 'Size', 'Parent_SKU', 'External_Images']
+    size_codes = {
+        'Small': 'S', 'Medium': 'M', 'Large': 'L', 'XL': 'XL', 'XXL': 'XXL',
+    }
+    rows = 0
+    with open(os.path.join(d, 'data.csv'), 'w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(header)
+        for i in range(1, parents + 1):
+            ptype, cat, base = PRODUCT_TYPES[i % len(PRODUCT_TYPES)]
+            adj = ADJECTIVES[i % len(ADJECTIVES)]
+            brand = BRANDS[i % len(BRANDS)]
+            name = '%s %s %06d' % (adj, ptype, i)
+            sku = 'VAR10-%06d' % i
+            colours = (COLOURS[i % len(COLOURS)], COLOURS[(i + 3) % len(COLOURS)])
+            desc = ('The %s %s comes in %s and %s across five sizes. Demo variable '
+                    'product #%d for Super Speedy Imports, with ten variations and '
+                    'colour-matched external images.'
+                    % (adj.lower(), ptype.lower(), colours[0][0].lower(),
+                       colours[1][0].lower(), i))
+            gallery = '|'.join(colour_image(colour, ptype) for colour in colours)
+            w.writerow([sku, name, 'variable', desc, 'A %s %s.' % (adj.lower(), ptype.lower()),
+                        '', '', '', '', cat, brand,
+                        ', '.join(colour[0] for colour in colours), ', '.join(SIZES),
+                        '', gallery])
+            rows += 1
+            price = base + (i % 10)
+            for colour in colours:
+                for size in SIZES:
+                    vsku = '%s-%s-%s' % (sku, colour[0][:3].upper(), size_codes[size])
+                    sale = '%.2f' % (price * 0.8) if (i + len(size)) % 5 == 0 else ''
+                    w.writerow([vsku, '%s %s %s' % (name, colour[0], size), 'variation',
+                                '%s in %s, size %s.' % (name, colour[0].lower(), size),
+                                '%s %s.' % (colour[0], size), '%.2f' % price, sale,
+                                str(5 + (i + rows) % 40), 'yes', cat, brand, colour[0], size,
+                                sku, colour_image(colour, ptype)])
+                    rows += 1
+    write_json(os.path.join(d, 'config.json'), {
+        'base_template': 'SSI_WooCommerceProductTemplate',
+        'template_mappings': {
+            'post_title': 'Name', 'post_content': 'Description',
+            'post_excerpt': 'Short_Description',
+            '_parent_ssi_unique_item_id': 'Parent_SKU',
+            'taxonomies': {
+                'product_cat': {'separator': '>', 'source': 'Categories', 'is_variable': False},
+                'product_brand': {'separator': '>', 'source': 'Brand', 'is_variable': False},
+                'pa_color': {'source': 'Color', 'is_variable': '1'},
+                'pa_size': {'source': 'Size', 'is_variable': '1'},
+            },
+            'post_meta': {
+                'external_image_url': 'External_Images',
+                '_sku': 'SKU', '_regular_price': 'Regular_Price', '_sale_price': 'Sale_Price',
+                '_stock': 'Stock', '_manage_stock': 'Manage_Stock',
+            },
+            'media': {'featured_image': '', 'gallery_images': ''},
+        },
+        'functions': None,
+        'additional_options': {
+            'variation_import_type': 'mixed',
+            'delete_items': False, 'keep_sold_items': True,
+            'force_delete': False, 'continue_on_error': False,
+        },
+    })
+    write_json(os.path.join(d, 'taxonomies.json'),
+               {'post_type': 'product',
+                'taxonomies': [TAX_PRODUCT_CAT, TAX_PRODUCT_BRAND, TAX_PA_COLOR, TAX_PA_SIZE]})
+    write_json(os.path.join(d, 'sample.json'), {
+        'name': 'Variable Products (5,000 parents, 50,000 variations)',
+        'description': '5,000 variable parent products with ten variations each '
+                       '(two colours x five sizes), for 55,000 total rows. Includes '
+                       'categories, brands and colour-matched external images. Requires '
+                       'WooCommerce. Pro only: the Lite edition does not import variable products.',
+        'post_type': 'product', 'rows': rows,
+        'features': ['5,000 variable parent products', '50,000 variations',
+                     'Ten variations per parent', 'Categories', 'Brands',
+                     'Colour + size attributes', 'External images (no download)'],
+    })
+    return rows
+
+
 # ---------------------------------------------------------------------------
 # Generate + manifest
 # ---------------------------------------------------------------------------
 DEMOS = [
     ('posts-100k', [], gen_posts_100k, ('posts-100k', 100000)),
     ('simple-products-100k', ['woocommerce'], gen_simple_100k, ('simple-products-100k', 100000)),
+    ('variable-products-55k', ['woocommerce', 'pro'], gen_variable_55k,
+     ('variable-products-55k', 5000)),
     ('variable-products-500k', ['woocommerce', 'pro'], gen_variable_500k,
      ('variable-products-500k', 100000)),
 ]
+
+manifest_path = os.path.join(HERE, 'manifest.json')
+existing_demos = []
+if os.path.exists(manifest_path):
+    with open(manifest_path) as existing_manifest_file:
+        existing_demos = json.load(existing_manifest_file).get('demos', [])
 
 manifest_demos = []
 for slug, requires, fn, args in DEMOS:
@@ -367,7 +467,13 @@ for slug, requires, fn, args in DEMOS:
     })
     print('  %s rows, %.1f MB' % (rows, size / 1048576.0))
 
-write_json(os.path.join(HERE, 'manifest.json'), {
+# The one-million-row showcase has its own generator so changes here cannot
+# perturb its CSV or checksum. Preserve independently generated manifest rows.
+generated_slugs = {entry['slug'] for entry in manifest_demos}
+manifest_demos.extend(entry for entry in existing_demos
+                      if entry.get('slug') not in generated_slugs)
+
+write_json(manifest_path, {
     'schema': 1,
     'generated_seed': 20260713,
     'repo': '%s/%s' % (ORG, REPO),

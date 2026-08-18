@@ -1,0 +1,15 @@
+{
+    "name": "Variable Products (5,000 parents, 50,000 variations)",
+    "description": "5,000 variable parent products with ten variations each (two colours x five sizes), for 55,000 total rows. Includes categories, brands and colour-matched external images. Requires WooCommerce. Pro only: the Lite edition does not import variable products.",
+    "post_type": "product",
+    "rows": 55000,
+    "features": [
+        "5,000 variable parent products",
+        "50,000 variations",
+        "Ten variations per parent",
+        "Categories",
+        "Brands",
+        "Colour + size attributes",
+        "External images (no download)"
+    ]
+}
