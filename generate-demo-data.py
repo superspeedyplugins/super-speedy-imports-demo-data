@@ -153,7 +153,9 @@ def gen_posts_100k(slug, count):
         },
         'functions': None,
         'additional_options': {
-            'unique_id_components': ['meta:demo_reference'],
+            # Post title is the Post template's built-in match, so Lite can run this demo;
+            # a meta-field match needs Pro's custom matching. Titles are unique (#N).
+            'unique_id_components': ['post:post_title'],
             'delete_items': False, 'keep_sold_items': True,
             'force_delete': False, 'continue_on_error': False,
         },

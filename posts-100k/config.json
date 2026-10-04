@@ -26,7 +26,7 @@
     "functions": null,
     "additional_options": {
         "unique_id_components": [
-            "meta:demo_reference"
+            "post:post_title"
         ],
         "delete_items": false,
         "keep_sold_items": true,
